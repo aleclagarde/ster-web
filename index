@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ster · Cronómetro de estudio para opositores y universitarios</title>
+<meta name="description" content="ster mide el tiempo que estudias de verdad: el efectivo por un lado y las pausas por otro. Para iPhone.">
+<link rel="canonical" href="https://sterstudy.com/">
+
+<meta property="og:title" content="ster · Cronómetro de estudio">
+<meta property="og:description" content="Mide lo que estudias, no lo que crees.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sterstudy.com/">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary">
+
+<style>
+  /* Los mismos tokens que privacidad, términos y soporte: la portada no
+     puede parecer de otra web que el resto. */
+  :root {
+    --fondo: #FBF7F2;
+    --superficie: #FFFFFF;
+    --texto: #241F1A;
+    --secundario: #6B6157;
+    --tenue: #9A8F83;
+    --borde: #E4DACE;
+    --acento: #B3690E;
+    --acento-texto: #FFFFFF;
+    --cielo-a: #F3ECE2;
+    --cielo-b: #FBF7F2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #17130F;
+      --superficie: #221C16;
+      --texto: #F5EFE8;
+      --secundario: #A99C8E;
+      --tenue: #7A6E62;
+      --borde: #3A3128;
+      --acento: #F0A83C;
+      --acento-texto: #17130F;
+      --cielo-a: #1E1812;
+      --cielo-b: #17130F;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  a { color: var(--acento); }
+  strong { color: var(--texto); }
+  .ancho { max-width: 680px; margin: 0 auto; padding: 0 22px; }
+
+  /* ── portada ───────────────────────────────────────────────────── */
+  .cielo {
+    background: linear-gradient(var(--cielo-a), var(--cielo-b));
+    border-bottom: 1px solid var(--borde);
+    padding: 92px 0 76px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Las estrellas son una sola capa repetida, no imágenes: pesa cero y
+     no hay nada que cargar ni que se vea a medias. */
+  .cielo::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 22%, var(--tenue), transparent),
+      radial-gradient(1.5px 1.5px at 78% 16%, var(--tenue), transparent),
+      radial-gradient(1px 1px   at 34% 68%, var(--tenue), transparent),
+      radial-gradient(1px 1px   at 63% 79%, var(--tenue), transparent),
+      radial-gradient(2px 2px   at 88% 56%, var(--acento), transparent),
+      radial-gradient(1px 1px   at 22% 88%, var(--tenue), transparent);
+    opacity: .55;
+    pointer-events: none;
+  }
+  .cielo > * { position: relative; }
+  .marca {
+    font-size: 15px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--tenue); margin: 0 0 18px;
+  }
+  h1 {
+    font-size: 46px; line-height: 1.08; letter-spacing: -1.2px;
+    margin: 0 0 16px; max-width: 12ch; margin-inline: auto;
+  }
+  .lema { color: var(--secundario); font-size: 19px; margin: 0 auto 34px; max-width: 34ch; }
+  .boton {
+    display: inline-block; text-decoration: none;
+    background: var(--acento); color: var(--acento-texto);
+    font-size: 17px; font-weight: 600;
+    padding: 15px 32px; border-radius: 12px;
+  }
+  .pie-boton { color: var(--tenue); font-size: 14px; margin: 14px 0 0; }
+
+  /* ── secciones ─────────────────────────────────────────────────── */
+  section { padding: 64px 0; border-bottom: 1px solid var(--borde); }
+  h2 { font-size: 26px; line-height: 1.25; margin: 0 0 10px; letter-spacing: -0.4px; }
+  section > .ancho > p { color: var(--secundario); margin: 0 0 26px; }
+
+  .lista { list-style: none; padding: 0; margin: 0; }
+  .lista li { padding: 20px 0; border-top: 1px solid var(--borde); }
+  .lista li:first-child { border-top: none; padding-top: 0; }
+  .lista b { display: block; color: var(--texto); font-size: 17px; margin-bottom: 3px; }
+  .lista span { color: var(--secundario); }
+
+  .precios { display: grid; gap: 12px; margin: 0 0 20px; }
+  .precio {
+    background: var(--superficie); border: 1px solid var(--borde);
+    border-radius: 12px; padding: 16px 20px;
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+  }
+  .precio b { color: var(--texto); }
+  .precio span { color: var(--tenue); font-size: 15px; white-space: nowrap; }
+
+  .nota { color: var(--tenue); font-size: 15px; margin: 0; }
+
+  footer { padding: 44px 0 64px; color: var(--tenue); font-size: 14px; text-align: center; }
+  footer a { color: var(--tenue); }
+  footer p { margin: 0 0 8px; }
+
+  @media (max-width: 480px) {
+    .cielo { padding: 68px 0 56px; }
+    h1 { font-size: 36px; }
+    .lema { font-size: 17px; }
+    section { padding: 48px 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="cielo">
+  <div class="ancho">
+    <p class="marca">ster</p>
+    <h1>Mide lo que estudias, no lo que crees</h1>
+    <p class="lema">
+      Un cronómetro para opositores y universitarios que cuenta el tiempo efectivo
+      y guarda las pausas aparte.
+    </p>
+    <a class="boton" href="/app">Descargar en el App Store</a>
+    <p class="pie-boton">Para iPhone, con iOS 16 o posterior. Gratis.</p>
+  </div>
+</header>
+
+<section>
+  <div class="ancho">
+    <h2>Horas que puedes mirar a la cara</h2>
+    <p>
+      Cualquiera puede decir que ha estudiado ocho horas. ster mide las que ha estudiado.
+    </p>
+    <ul class="lista">
+      <li>
+        <b>Tiempo efectivo y pausas, por separado</b>
+        <span>Cada sesión guarda cuánto estuviste concentrado, cuánto en pausa y cuántas
+        veces paraste. De ahí sale tu porcentaje de concentración.</span>
+      </li>
+      <li>
+        <b>Por tema, no por sensación</b>
+        <span>Eliges qué estás estudiando y ster reparte tus horas por el temario.
+        Al final ves dónde has echado el tiempo y dónde no has entrado todavía.</span>
+      </li>
+      <li>
+        <b>A qué hora rindes de verdad</b>
+        <span>Con suficientes sesiones, ster te dice en qué franja del día te concentras
+        más que tu media. No es una opinión: son tus propios datos.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="ancho">
+    <h2>Un cielo que se construye estudiando</h2>
+    <p>
+      Cada sesión deja algo arriba. Las horas van desbloqueando satélites, planetas,
+      cometas y nebulosas, y tu cielo acaba siendo el dibujo de los meses que llevas.
+    </p>
+    <ul class="lista">
+      <li>
+        <b>Constancia, de un vistazo</b>
+        <span>Un calendario del año entero donde se ve la racha, los días fuertes
+        y los huecos.</span>
+      </li>
+      <li>
+        <b>Sondas</b>
+        <span>Te pones una meta con fecha —«180 horas para la convocatoria de junio»—
+        y ster te dice cada día si vas a llegar al ritmo que llevas.</span>
+      </li>
+      <li>
+        <b>Gente que prepara lo mismo</b>
+        <span>Grupos privados con quien tú elijas, con su clasificación. Se ve quién
+        está estudiando ahora mismo, y eso tira más que cualquier recordatorio.</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="ancho">
+    <h2>Gratis de verdad, y luego ster Plus</h2>
+    <p>
+      La app completa es gratuita: cronómetro, temario, histórico, cielo, grupos y logros.
+      Plus añade extras y ayuda a que esto siga en pie.
+    </p>
+    <div class="precios">
+      <div class="precio"><b>ster Plus · un año</b><span>19,99 €</span></div>
+      <div class="precio"><b>ster Plus · un mes</b><span>2,99 €</span></div>
+      <div class="precio"><b>Colores y fondos</b><span>1,99 € · pago único</span></div>
+    </div>
+    <p class="nota">
+      Sin anuncios, y tus horas no se venden a nadie. Las suscripciones se gestionan y
+      se cancelan desde tu cuenta de Apple.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="ancho">
+    <p>
+      <a href="/app">Descargar</a> ·
+      <a href="/soporte">Soporte</a> ·
+      <a href="/privacidad">Privacidad</a> ·
+      <a href="/terminos">Términos</a>
+    </p>
+    <p><a href="mailto:hola@sterstudy.com">hola@sterstudy.com</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
